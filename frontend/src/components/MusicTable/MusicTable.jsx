@@ -2,12 +2,12 @@ import React from "react";
 import "./MusicTable.css";
 import EditSong from "../EditSong/EditSong";
 import { useState, useEffect } from "react";
-import axios from 'axios'
+import axios from "axios";
 
 const MusicTable = (props) => {
   const [show, setShow] = useState(false);
-  const [toggle, setToggle] = useState()
-  const [song, setSong] = useState([])
+  const [toggle, setToggle] = useState();
+  const [song, setSong] = useState([]);
 
   const showModal = () => {
     setShow(true);
@@ -18,23 +18,23 @@ const MusicTable = (props) => {
   };
 
   useEffect(() => {
-    props.getAllSongs()
-  }, [toggle, props.toggle])
+    props.getAllSongs();
+  }, [toggle, props.toggle]);
 
   const handleEdit = (song) => {
     console.log("Editing song", song);
     setSong(song);
     showModal();
-  }
+  };
 
   const deleteSong = async (key) => {
-    await axios.delete(`http://127.0.0.1:5000/api/songs/${key}`)
-    setToggle(!toggle)
-  }
+    await axios.delete(`http://127.0.0.1:5000/api/songs/${key}`);
+    setToggle(!toggle);
+  };
 
   const calculateMinutes = (seconds) => {
-    return seconds/60
-  }
+    return seconds / 60;
+  };
 
   if (props.songs !== [])
     return (
@@ -60,25 +60,31 @@ const MusicTable = (props) => {
                   <td>{song.genre}</td>
                   <td>{song.release_date}</td>
                   <td>{calculateMinutes(song.running_time).toFixed(2)}</td>
-                  <td><button onClick={() => deleteSong(song.id)} type="submit">
-                    Delete Song
-                  </button></td>
-                  <td><button type="button" onClick={() => handleEdit(song)}>
-                    Edit Song
-                  </button></td>
+                  <td>
+                    <button onClick={() => deleteSong(song.id)} type="submit">
+                      Delete Song
+                    </button>
+                  </td>
+                  <td>
+                    <button type="button" onClick={() => handleEdit(song)}>
+                      Edit Song
+                    </button>
+                  </td>
                 </tr>
               );
             })}
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td><b>Total Time: {props.time}</b></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>
+                <b>Total Time: {props.time}</b>
+              </td>
+              <td></td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
         {/* Proper location for modal display */}
